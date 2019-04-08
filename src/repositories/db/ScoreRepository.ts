@@ -1,14 +1,15 @@
 import IScoreRepository from "../IScoreRepository";
 
 export default class ScoreRepository implements IScoreRepository {
-    all(): void {
+    public all(): void {
+        // console.log("DELETE...");
     }
 
-    delete(): void {
-        console.log('DELETE...');
+    public delete(): void {
+        // console.log("DELETE...");
     }
 
-    save(): void {
+    public save(): void {
+        // console.log("DELETE...");
     }
-
 }

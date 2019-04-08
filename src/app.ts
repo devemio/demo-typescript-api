@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import express from "express";
-import routes from "./routes";
 import { container } from "tsyringe";
 import ScoreRepository from "./repositories/db/ScoreRepository";
+import routes from "./routes";
 
 class App {
     public app: express.Application;

@@ -1,7 +1,7 @@
 import express from "express";
+import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
 import IScoreRepository from "../repositories/IScoreRepository";
-import "reflect-metadata";
 
 @injectable()
 export default class PostController {
