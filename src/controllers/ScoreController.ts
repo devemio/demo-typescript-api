@@ -1,10 +1,10 @@
+import { validate, ValidationError } from "class-validator";
 import express from "express";
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
-import IScoreRepository from "../repositories/IScoreRepository";
-import { Score } from "../models/Score";
-import { validate, ValidationError } from "class-validator";
 import { IFrame } from "../contracts/IFrame";
+import { Score } from "../models/Score";
+import IScoreRepository from "../repositories/IScoreRepository";
 
 @injectable()
 export default class ScoreController {
@@ -12,10 +12,10 @@ export default class ScoreController {
     }
 
     public async index(req: express.Request, res: express.Response): Promise<express.Response> {
-        let scores: Score[] = await this.scoreRepository.all();
-        let total: number = scores.map(score => score.first + score.second + score.third).reduce((a, v) => a + v);
-        let frames: IFrame[] = scores.map(score => {
-            let frame: IFrame = {
+        const scores: Score[] = await this.scoreRepository.all();
+        const total: number = scores.map((score) => score.first + score.second + score.third).reduce((a, v) => a + v);
+        const frames: IFrame[] = scores.map((score) => {
+            const frame: IFrame = {
                 first: score.first,
                 second: score.second
             };
@@ -24,7 +24,7 @@ export default class ScoreController {
             }
             return frame;
         });
-        return res.json({"frames": frames, "total": total});
+        return res.json({frames: frames, total: total});
     }
 
     public async store(req: express.Request, res: express.Response): Promise<express.Response> {
