@@ -10,6 +10,6 @@ routes.get("/", (req: Request, res: Response) => container.resolve(HomeControlle
 routes.post("/game", (req: Request, res: Response) => container.resolve(GameController).store(req, res));
 
 routes.get("/scores", (req: Request, res: Response) => container.resolve(ScoreController).index(req, res));
-routes.put("/scores", (req: Request, res: Response) => container.resolve(ScoreController).update(req, res));
+routes.put("/scores", (req: Request, res: Response) => container.resolve(ScoreController).store(req, res));
 
 export default routes;

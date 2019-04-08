@@ -1,7 +1,9 @@
+import { Score } from "../models/Score";
+
 export default interface IScoreRepository {
-    all(): void;
+    all(): Promise<Score[]>;
 
-    delete(): void;
+    delete(): Promise<void>;
 
-    save(): void;
+    save(score: Score): Promise<void>;
 }
