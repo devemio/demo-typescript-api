@@ -4,7 +4,7 @@ import { inject, injectable } from "tsyringe";
 import IScoreRepository from "../repositories/IScoreRepository";
 
 @injectable()
-export default class PostController {
+export default class GameController {
     constructor(@inject("IScoreRepository") protected scoreRepository: IScoreRepository) {
     }
 
