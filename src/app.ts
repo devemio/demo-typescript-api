@@ -1,14 +1,20 @@
+import bodyParser from "body-parser";
 import express from "express";
+import routes from "./routes";
 
-// Create a new express application instance
-const app: express.Application = express();
-const port: number = 3000;
+class App {
+    public app: express.Application;
 
-app.get("/", (req, res) => {
-    res.send("Server is up");
-});
+    constructor() {
+        this.app = express();
+        this.init();
+    }
 
-app.listen(port, () => {
-    // tslint:disable-next-line:no-console
-    console.log(`Server started at http://localhost:${port}`);
-});
+    private init(): void {
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({extended: true}));
+        this.app.use("/", routes);
+    }
+}
+
+export default new App().app;
