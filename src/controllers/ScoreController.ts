@@ -5,6 +5,7 @@ import { inject, injectable } from "tsyringe";
 import { IFrame } from "../contracts/IFrame";
 import { Score } from "../models/Score";
 import IScoreRepository from "../repositories/IScoreRepository";
+import ScoreHelper from "../helpers/ScoreHelper";
 
 @injectable()
 export default class ScoreController {
@@ -13,7 +14,7 @@ export default class ScoreController {
 
     public async index(req: express.Request, res: express.Response): Promise<express.Response> {
         const scores: Score[] = await this.scoreRepository.all();
-        const total: number = scores.map((score) => score.first + score.second + score.third).reduce((a, v) => a + v);
+        const total: number = ScoreHelper.getTotal(scores);
         const frames: IFrame[] = scores.map((score) => {
             const frame: IFrame = {
                 first: score.first,
