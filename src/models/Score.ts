@@ -1,4 +1,4 @@
-import { IsDefined, IsInt, IsOptional, IsPositive, Min } from "class-validator";
+import { IsDefined, IsInt, IsOptional, Min } from "class-validator";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

@@ -24,7 +24,7 @@ export default class ScoreController {
             }
             return frame;
         });
-        return res.json({frames: frames, total: total});
+        return res.json({frames, total});
     }
 
     public async store(req: express.Request, res: express.Response): Promise<express.Response> {

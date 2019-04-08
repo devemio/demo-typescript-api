@@ -8,8 +8,8 @@ export default class GameController {
     constructor(@inject("IScoreRepository") protected scoreRepository: IScoreRepository) {
     }
 
-    public store(req: express.Request, res: express.Response): void {
-        this.scoreRepository.delete();
+    public async store(req: express.Request, res: express.Response): Promise<void> {
+        await this.scoreRepository.delete();
         res.status(204).send();
     }
 }
