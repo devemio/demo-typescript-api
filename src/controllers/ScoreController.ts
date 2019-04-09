@@ -30,6 +30,7 @@ export default class ScoreController {
         }
 
         await this.scoreRepository.save(score);
-        return res.json(score);
+
+        return res.json(ScoreTransformer.toFrame(score));
     }
 }
