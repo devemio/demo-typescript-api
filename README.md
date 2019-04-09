@@ -1,6 +1,6 @@
 # Typescript playground
 
-## Installation
+### Installation
 
 ```bash
 npm install
@@ -8,8 +8,13 @@ cp .env.example .env
 npm start
 ```
 
-## Development
+### Development
 
 ```bash
 npm run dev
 ```
+
+### TODO
+
+[ ] Express global error handler
+[ ] Add ValidationException
