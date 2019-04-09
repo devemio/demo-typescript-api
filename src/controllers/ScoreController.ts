@@ -29,10 +29,12 @@ export default class ScoreController {
     }
 
     public async store(req: express.Request, res: express.Response): Promise<express.Response> {
+        const request: IFrame = req.body;
+
         const score = new Score();
-        score.first = req.body.first;
-        score.second = req.body.second;
-        score.third = req.body.third;
+        score.first = request.first;
+        score.second = request.second;
+        score.third = request.third;
 
         const errors: ValidationError[] = await validate(score);
         if (errors.length > 0) {
