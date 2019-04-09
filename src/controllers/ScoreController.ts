@@ -1,13 +1,12 @@
-import { validate, ValidationError } from "class-validator";
 import express from "express";
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
+import FrameValidator, { IFrameValidatorError } from "../contracts/FrameValidator";
 import IFrame from "../contracts/IFrame";
 import ScoreHelper from "../helpers/ScoreHelper";
 import Score from "../models/Score";
 import IScoreRepository from "../repositories/IScoreRepository";
 import ScoreTransformer from "../transformers/ScoreTransformer";
-import FrameValidator, { FrameValidatorError } from "../contracts/FrameValidator";
 
 @injectable()
 export default class ScoreController {
@@ -26,21 +25,13 @@ export default class ScoreController {
 
     public async store(req: express.Request, res: express.Response): Promise<express.Response> {
         const request: IFrame = req.body;
-
-        const errors: FrameValidatorError[] = await this.frameValidator.validate(request);
+        const errors: IFrameValidatorError[] = await this.frameValidator.validate(request);
         if (errors.length > 0) {
             return res.status(422).json(errors);
         }
 
         const score: Score = ScoreTransformer.toScore(request);
-
-        // const errors: ValidationError[] = await validate(score);
-        // if (errors.length > 0) {
-        //     return res.status(422).json(errors);
-        // }
-
         await this.scoreRepository.save(score);
-
         return res.json(ScoreTransformer.toFrame(score));
     }
 }
