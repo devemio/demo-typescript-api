@@ -16,5 +16,5 @@ npm run dev
 
 ### TODO
 
-[ ] Express global error handler
-[ ] Add ValidationException
+- [ ] Express global error handler
+- [ ] Add ValidationException
