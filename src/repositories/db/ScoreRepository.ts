@@ -1,5 +1,5 @@
-import IScoreRepository from "../IScoreRepository";
 import Score from "../../models/Score";
+import IScoreRepository from "../IScoreRepository";
 
 export default class ScoreRepository implements IScoreRepository {
     public async all(): Promise<Score[]> {
