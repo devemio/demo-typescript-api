@@ -1,4 +1,4 @@
-import { Score } from "../models/Score";
+import Score from "../models/Score";
 
 export default interface IScoreRepository {
     all(): Promise<Score[]>;

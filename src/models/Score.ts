@@ -2,7 +2,7 @@ import { IsDefined, IsInt, IsOptional, Min } from "class-validator";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Score extends BaseEntity {
+export default class Score extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 

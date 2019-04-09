@@ -1,4 +1,4 @@
-import { Score } from "../models/Score";
+import Score from "../models/Score";
 
 export default class ScoreHelper {
     public static getTotal(scores: Score[]): number {
