@@ -4,76 +4,83 @@ import IScoreRepository from "../repositories/IScoreRepository";
 
 @injectable()
 export default class FrameValidator {
+    protected maxFrameCount: number = 10;
+    protected maxPins: number = 10;
+
     constructor(@inject("IScoreRepository") protected scoreRepository: IScoreRepository) {
     }
 
     public async validate(frame: IFrame): Promise<FrameValidatorError[]> {
         let errors: FrameValidatorError[] = [];
 
+        const frameCount: number = await this.getCurrentFrameCount();
+
+        // Total frame count
+        if (frameCount > this.maxFrameCount) {
+            errors.push({field: null, message: `total frames can't be more than ${this.maxFrameCount}`});
+            return errors;
+        }
+
         // First
-        if (frame.first === null || frame.first === undefined) {
-            errors.push({field: 'first', message: 'value should be not null'});
-            return errors;
-        }
-
-        if (typeof frame.first !== 'number') {
-            errors.push({field: 'first', message: 'value should be number'});
-            return errors;
-        }
-
-        if (frame.first < 0 || frame.first > 10) {
-            errors.push({field: 'first', message: 'value should be >= 0 or <= 10'});
+        errors = this.validateRange(frame.first, 'first');
+        if (errors.length > 0) {
             return errors;
         }
 
         // Second
-        if (frame.second === null || frame.second === undefined) {
-            errors.push({field: 'second', message: 'value should be not null'});
+        errors = this.validateRange(frame.second, 'second');
+        if (errors.length > 0) {
             return errors;
         }
 
-        if (typeof frame.second !== 'number') {
-            errors.push({field: 'second', message: 'value should be number'});
-            return errors;
-        }
-
-        if (frame.second < 0 || frame.second > 10) {
-            errors.push({field: 'second', message: 'value should be >= 0 or <= 10'});
-            return errors;
-        }
-
-        const frameCount: number = (await this.scoreRepository.all()).length + 1;
-
-        if (frameCount > 10) {
-            errors.push({field: null, message: "total frames can't be more than 10"});
-            return errors;
-        }
-
-        if (frameCount <= 10 && frame.third !== undefined) {
-            errors.push({field: 'third', message: "value should be null until frame count < 10"});
-            return errors;
-        }
-
-        // Third
-        if (frame.third === null && frame.third === undefined) {
-            if (typeof frame.third !== 'number') {
-                errors.push({field: 'third', message: 'value should be number'});
+        if (frameCount < this.maxFrameCount) { // Frames 1..9
+            // Third
+            if (frame.third !== null && frame.third !== undefined) {
+                errors.push({field: 'third', message: `value should be null until frames < ${this.maxFrameCount}`});
                 return errors;
             }
 
-            if (frame.third < 0 || frame.third > 10) {
-                errors.push({field: 'third', message: 'value should be >= 0 or <= 10'});
+            // Total
+            if ((frame.first + frame.second + (frame.third || 0)) > this.maxPins) {
+                errors.push({field: null, message: `total pins can't be more than ${this.maxPins}`});
                 return errors;
+            }
+        } else { // Frames 10
+            // Third
+            if (frame.third !== null && frame.third !== undefined) {
+                errors = this.validateRange(frame.third, 'third');
+                if (errors.length > 0) {
+                    return errors;
+                }
             }
         }
 
-        // Total
-        if ((frame.first + frame.second + (frame.third || 0)) > 10) {
-            errors.push({field: null, message: "total can't be more than 10"});
+        return errors;
+    }
+
+    protected validateRange(value: number, field: string): FrameValidatorError[] {
+        let errors: FrameValidatorError[] = [];
+
+        if (value === null || value === undefined) {
+            errors.push({field: field, message: 'value should be not null'});
+            return errors;
+        }
+
+        if (typeof value !== 'number') {
+            errors.push({field: field, message: 'value should be number'});
+            return errors;
+        }
+
+        if (value < 0 || value > this.maxPins) {
+            errors.push({field: field, message: `value should be >= 0 and <= ${this.maxPins}`});
             return errors;
         }
 
         return errors;
+    }
+
+    protected async getCurrentFrameCount(): Promise<number> {
+        return (await this.scoreRepository.all()).length + 1;
     }
 }
 
