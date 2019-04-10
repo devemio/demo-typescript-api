@@ -55,7 +55,7 @@ export default class FrameValidator {
 
                 // Total
                 if (frame.first + frame.second < this.maxPins) {
-                    errors.push({field: 'third', message: `value can't be more than 0`});
+                    errors.push({field: "third", message: `value can't be more than 0`});
                     return errors;
                 }
             }

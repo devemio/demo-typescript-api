@@ -3,10 +3,10 @@ import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
 import FrameValidator, { IFrameValidatorError } from "../contracts/FrameValidator";
 import IFrame from "../contracts/IFrame";
+import ScoreCalculator from "../helpers/ScoreCalculator";
 import Score from "../models/Score";
 import IScoreRepository from "../repositories/IScoreRepository";
 import ScoreTransformer from "../transformers/ScoreTransformer";
-import ScoreCalculator from "../helpers/ScoreCalculator";
 
 @injectable()
 export default class ScoreController {
