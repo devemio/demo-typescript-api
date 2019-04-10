@@ -1,6 +1,6 @@
 import Score from "../models/Score";
 
-export default class ScoreHelper { // @fixme rename to ScoreCalculator
+export default class ScoreCalculator {
     public static getTotal(scores: Score[]): number {
         let total: number = 0;
         for (let i = 0; i < scores.length; i++) {
@@ -15,6 +15,8 @@ export default class ScoreHelper { // @fixme rename to ScoreCalculator
             } else if (state == FrameMark.Spare) {
                 total += 10 + (nextScore ? nextScore.first : 0)
             }
+
+            console.log(total);
         }
         return total;
     }

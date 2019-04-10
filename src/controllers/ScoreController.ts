@@ -3,10 +3,10 @@ import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
 import FrameValidator, { IFrameValidatorError } from "../contracts/FrameValidator";
 import IFrame from "../contracts/IFrame";
-import ScoreHelper from "../helpers/ScoreHelper";
 import Score from "../models/Score";
 import IScoreRepository from "../repositories/IScoreRepository";
 import ScoreTransformer from "../transformers/ScoreTransformer";
+import ScoreCalculator from "../helpers/ScoreCalculator";
 
 @injectable()
 export default class ScoreController {
@@ -18,7 +18,7 @@ export default class ScoreController {
 
     public async index(req: express.Request, res: express.Response): Promise<express.Response> {
         const scores: Score[] = await this.scoreRepository.all();
-        const total: number = ScoreHelper.getTotal(scores);
+        const total: number = ScoreCalculator.getTotal(scores);
         const frames: IFrame[] = scores.map((score) => ScoreTransformer.toFrame(score));
         return res.json({frames, total});
     }
