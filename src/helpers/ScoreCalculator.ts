@@ -13,7 +13,7 @@ export default class ScoreCalculator {
             } else if (state == FrameMark.Strike) {
                 total += 10 + (nextScore ? this.getSum(nextScore) : 0)
             } else if (state == FrameMark.Spare) {
-                total += 10 + (nextScore ? nextScore.first : 0)
+                total += 10 + (nextScore ? nextScore.first : (i + 1 == scores.length ? score.third : 0))
             }
 
             console.log(total);
