@@ -41,7 +41,7 @@ export default class FrameValidator {
             }
 
             // Total
-            if ((frame.first + frame.second + (frame.third || 0)) > this.maxPins) {
+            if (frame.first + frame.second > this.maxPins) {
                 errors.push({field: null, message: `total pins can't be more than ${this.maxPins}`});
                 return errors;
             }
@@ -50,6 +50,12 @@ export default class FrameValidator {
             if (frame.third !== null && frame.third !== undefined) {
                 errors = this.validateRange(frame.third, "third");
                 if (errors.length > 0) {
+                    return errors;
+                }
+
+                // Total
+                if (frame.first + frame.second < this.maxPins) {
+                    errors.push({field: 'third', message: `value can't be more than 0`});
                     return errors;
                 }
             }
