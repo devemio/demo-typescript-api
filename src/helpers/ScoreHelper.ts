@@ -1,11 +1,40 @@
 import Score from "../models/Score";
 
-export default class ScoreHelper {
+export default class ScoreHelper { // @fixme rename to ScoreCalculator
     public static getTotal(scores: Score[]): number {
-        if (!scores.length) {
-            return 0;
-        }
+        let total: number = 0;
+        for (let i = 0; i < scores.length; i++) {
+            let score: Score = scores[i];
+            let nextScore: Score = scores[i + 1];
+            let state: FrameMark = this.getFrameMark(score);
 
-        return scores.map((score) => score.first + score.second + score.third).reduce((a, v) => a + v);
+            if (state == FrameMark.Open) {
+                total += this.getSum(score);
+            } else if (state == FrameMark.Strike) {
+                total += 10 + (nextScore ? this.getSum(nextScore) : 0)
+            } else if (state == FrameMark.Spare) {
+                total += 10 + (nextScore ? nextScore.first : 0)
+            }
+        }
+        return total;
     }
+
+    public static getFrameMark(score: Score): FrameMark {
+        if (score.first == 10) {
+            return FrameMark.Strike;
+        } else if (score.first + score.second == 10) {
+            return FrameMark.Spare;
+        }
+        return FrameMark.Open;
+    }
+
+    public static getSum(score: Score): number {
+        return score.first + score.second + (score.third || 0);
+    }
+}
+
+enum FrameMark {
+    Open,
+    Spare,
+    Strike
 }
